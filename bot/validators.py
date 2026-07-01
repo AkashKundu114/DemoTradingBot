@@ -46,8 +46,8 @@ def validate_time_in_force(raw: str) -> str:
 def validate_positive_decimal(raw, field_name: str) -> Decimal:
     try:
         value = Decimal(str(raw))
-    except (InvalidOperation, ValueError, TypeError):
-        raise ValidationError(f"Invalid {field_name} '{raw}': must be a number.")
+    except (InvalidOperation, ValueError, TypeError) as exc:
+        raise ValidationError(f"Invalid {field_name} '{raw}': must be a number.") from exc
     if value <= 0:
         raise ValidationError(f"Invalid {field_name} '{raw}': must be greater than zero.")
     return value
